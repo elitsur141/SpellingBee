@@ -43,8 +43,22 @@ public class SpellingBee {
     // TODO: generate all possible substrings and permutations of the letters.
     //  Store them all in the ArrayList words. Do this by calling ANOTHER method
     //  that will find the substrings recursively.
-    public void generate() {
+    public void generate(String str) {
         // YOUR CODE HERE — Call your recursive method!
+        makeWords("", letters);
+    }
+
+    public void makeWords(String part, String str)
+    {
+        if (str.length() == 0)
+        {
+            words.add(part);
+        }
+        else
+        {
+            words.add(str.substring(0, 1));
+            
+        }
     }
 
     // TODO: Apply mergesort to sort all words. Do this by calling ANOTHER method
@@ -69,6 +83,31 @@ public class SpellingBee {
     //  If it is not in the dictionary, remove it from words.
     public void checkWords() {
         // YOUR CODE HERE
+        for (String word: words)
+        {
+            if (!found(word, 0, DICTIONARY_SIZE - 1))
+            {
+                words.remove(word);
+            }
+        }
+    }
+
+    public boolean found(String s, int low, int high)
+    {
+        if (low > high)
+            return false;
+
+        int med = (high + low) / 2;
+
+        if (DICTIONARY[med] == s)
+            return true;
+
+        if (s.charAt(0) > DICTIONARY[med].charAt(0))
+            low = med + 1;
+
+        else if (DICTIONARY[med].charAt(0) > s.charAt(0))
+            high = med - 1;
+            return found(s, low, high);
     }
 
     // Prints all valid words to wordList.txt
