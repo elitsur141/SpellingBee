@@ -76,13 +76,10 @@ public class SpellingBee {
     //  that will find the substrings recursively.
     public void sort() {
         // YOUR CODE HERE
-        int low = 0;
-        int high = words.size() - 1;
-        sortWords(low, high);
+        sortWords(words);
     }
     public ArrayList<String> sortWords(ArrayList<String> toSort)
     {
-
         int numWords = toSort.size();
         if (numWords == 1)
         {
@@ -91,32 +88,66 @@ public class SpellingBee {
 
         else
         {
-
-            ArrayList<String> arr1 = words.subList(0, numWords/2);
-            ArrayList<String> arr2 = words.subList(numWords/2);
+            ArrayList<String> arr1 = new ArrayList<String>();
+            ArrayList<String> arr2 = new ArrayList<String>();
+            int mid = numWords / 2;
+            // Make a copy of the first half of the words
+            for (int i = 0; i < mid; i++)
+            {
+                arr1.add(toSort.get(i));
+            }
+            // Make a copy of the second half of the words
+            for (int i = mid; i < numWords; i++)
+            {
+                arr2.add(toSort.get(i));
+            }
             ArrayList<String> sortedArr1 = sortWords(arr1);
             ArrayList<String> sortedArr2 = sortWords(arr2);
             return merge(sortedArr1, sortedArr2);
         }
-        //ArrayList<String> arr1 = sortWords(0, numWords/2);
-        //ArrayList<String> arr2 = sortWords((numWords/2) + 1, numWords - 1);
-        //return merge(arr1, arr2);
-        
-        /* If the words are out of order
-                if (current.compareTo(next) > 0)
-                {
-                    // Swap the two words
-                    String temp = current;
-                    current = next;
-                }
 
-        return words;
-        */
     }
 
     public ArrayList<String> merge(ArrayList<String> arr1, ArrayList<String> arr2)
     {
-
+        //int idx1 = 0;
+        //int idx2 = 0;
+        int sum = arr1.size() + arr2.size();
+        ArrayList<String> mergedArr = new ArrayList<String>();
+        for (int i = 0; i < sum; i++)
+        {
+            // If arr1 and arr2 both have strings left in them
+            if (arr1.size() > 0 && arr2.size() > 0)
+            {
+                // Switch 2 strings that are out of order
+                if (arr1.get(0).compareTo(arr2.get(0)) > 0) {
+                    mergedArr.add(arr2.remove(0));
+                    //idx2++;
+                }
+                else
+                {
+                    mergedArr.add(arr1.remove(0));
+                    //idx1++;
+                }
+            }
+            // If arr1 is empty, add the rest of arr2
+            else if (arr1.isEmpty())
+            {
+                for (int j = 0; j < arr2.size(); j++)
+                {
+                    mergedArr.add(arr2.remove(j));
+                }
+            }
+            // If arr2 is empty, add the rest of arr1
+            else if (arr2.isEmpty())
+            {
+                for (int j = 0; j < arr1.size(); j++)
+                {
+                    mergedArr.add(arr1.remove(j));
+                }
+            }
+        }
+        return mergedArr;
     }
     // Removes duplicates from the sorted list.
     public void removeDuplicates() {
@@ -152,12 +183,14 @@ public class SpellingBee {
         int med = (high + low) / 2;
 
         // If the word is found
-        if (DICTIONARY[med].equals(s))
+        if (DICTIONARY[med].equals(s)) {
             return true;
+        }
 
         // If the word is in the 1st half of the dictionary
-        else if (s.compareTo(DICTIONARY[med]) < 0)
+        else if (s.compareTo(DICTIONARY[med]) < 0) {
             high = --med;
+        }
          // If the word is in the 2nd half of the dictionary
         else
         {
@@ -222,6 +255,7 @@ public class SpellingBee {
         SpellingBee sb = new SpellingBee(letters);
         sb.generate();
         sb.sort();
+        System.out.println("Sorted words: " + sb.getWords());
         sb.removeDuplicates();
         sb.checkWords();
         try {
