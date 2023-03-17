@@ -110,8 +110,6 @@ public class SpellingBee {
 
     public ArrayList<String> merge(ArrayList<String> arr1, ArrayList<String> arr2)
     {
-        //int idx1 = 0;
-        //int idx2 = 0;
         int sum = arr1.size() + arr2.size();
         ArrayList<String> mergedArr = new ArrayList<String>();
         for (int i = 0; i < sum; i++)
@@ -122,12 +120,10 @@ public class SpellingBee {
                 // Switch 2 strings that are out of order
                 if (arr1.get(0).compareTo(arr2.get(0)) > 0) {
                     mergedArr.add(arr2.remove(0));
-                    //idx2++;
                 }
                 else
                 {
                     mergedArr.add(arr1.remove(0));
-                    //idx1++;
                 }
             }
             // If arr1 is empty, add the rest of arr2
@@ -136,6 +132,7 @@ public class SpellingBee {
                 for (int j = 0; j < arr2.size(); j++)
                 {
                     mergedArr.add(arr2.remove(j));
+                    j--;
                 }
             }
             // If arr2 is empty, add the rest of arr1
@@ -144,8 +141,10 @@ public class SpellingBee {
                 for (int j = 0; j < arr1.size(); j++)
                 {
                     mergedArr.add(arr1.remove(j));
+                    j--;
                 }
             }
+
         }
         return mergedArr;
     }
