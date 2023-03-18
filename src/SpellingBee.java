@@ -32,6 +32,7 @@ public class SpellingBee {
 
     private String letters;
     private ArrayList<String> words;
+    private ArrayList<String> sortedWords;
     public static final int DICTIONARY_SIZE = 143091;
     public static final String[] DICTIONARY = new String[DICTIONARY_SIZE];
 
@@ -67,7 +68,6 @@ public class SpellingBee {
             makeWords(part + a, b + c);
         }
 
-        System.out.println(words);
     }
 
 
@@ -76,14 +76,14 @@ public class SpellingBee {
     //  that will find the substrings recursively.
     public void sort() {
         // YOUR CODE HERE
-        sortWords(words);
+        sortedWords = sortWords(words);
     }
     public ArrayList<String> sortWords(ArrayList<String> toSort)
     {
         int numWords = toSort.size();
         if (numWords == 1)
         {
-            return words;
+            return toSort;
         }
 
         else
@@ -96,6 +96,7 @@ public class SpellingBee {
             {
                 arr1.add(toSort.get(i));
             }
+
             // Make a copy of the second half of the words
             for (int i = mid; i < numWords; i++)
             {
@@ -254,7 +255,6 @@ public class SpellingBee {
         SpellingBee sb = new SpellingBee(letters);
         sb.generate();
         sb.sort();
-        System.out.println("Sorted words: " + sb.getWords());
         sb.removeDuplicates();
         sb.checkWords();
         try {
